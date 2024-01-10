@@ -121,6 +121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloudflare:
+    dependency: "direct main"
+    description:
+      name: cloudflare
+      sha256: "21e1d35d905b0bccae2327762b957348b7f471c1e9fe43619b51ce91b84f134a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1+1"
   collection:
     dependency: transitive
     description:
@@ -153,6 +161,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  copy_with_extension:
+    dependency: transitive
+    description:
+      name: copy_with_extension
+      sha256: fbcf890b0c34aedf0894f91a11a579994b61b4e04080204656b582708b5b1125
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.4"
   cross_file:
     dependency: transitive
     description:
@@ -185,6 +201,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.10"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      sha256: "797e1e341c3dd2f69f2dad42564a6feff3bfb87187d05abb93b9609e6f1645c3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.4.0"
   expansion_tile_card:
     dependency: "direct main"
     description:
@@ -581,6 +605,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  retrofit:
+    dependency: transitive
+    description:
+      name: retrofit
+      sha256: "04ed77c82cadb655bb9357e8d0cb9da72ff704749a2d0cfe6540dd1f1f7ca4b9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.3"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -706,6 +738,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.0"
+  tusc:
+    dependency: transitive
+    description:
+      name: tusc
+      sha256: d3c6cfec1d3b75c34be5ee210fb37a527efc584956c8b2f77c4738d4f5699e55
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0+3"
   typed_data:
     dependency: transitive
     description:

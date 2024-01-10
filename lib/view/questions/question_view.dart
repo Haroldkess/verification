@@ -51,37 +51,48 @@ class QuestionView extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),
-                    children: List.generate(
-                        thisQuestions.length,
-                        (index) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: thisQuestions[index].fieldtype.toString() ==
-                                    "Y/N"
-                                ? YesOrNo(
-                                    id: thisQuestions[index].id!,
-                                    question: thisQuestions[index].label,
-                                  )
-                                : QuestionForm(
-                                    isDate: thisQuestions[index]
-                                                .fieldtype
-                                                .toString() ==
-                                            "Date"
-                                        ? true
-                                        : false,
-                                    id: thisQuestions[index].id!,
-                                    textInputType: thisQuestions[index]
-                                                .fieldtype
-                                                .toString() ==
-                                            "Number"
-                                        ? TextInputType.number
-                                        : thisQuestions[index]
-                                                    .fieldtype
-                                                    .toString() ==
-                                                "Text"
-                                            ? TextInputType.text
-                                            : TextInputType.multiline,
-                                    question: thisQuestions[index].label,
-                                  ))));
+                    children: List.generate(thisQuestions.length, (index) {
+                      List check = thisQuestions
+                              .where((p0) => p0.id == thisQuestions[index].id)
+                              .first
+                              .notes ??
+                          [];
+                      return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 3,
+                              ),
+                              thisQuestions[index].fieldtype.toString() == "Y/N"
+                                  ? YesOrNo(
+                                      id: thisQuestions[index].id!,
+                                      question: thisQuestions[index].label,
+                                    )
+                                  : QuestionForm(
+                                      isDate: thisQuestions[index]
+                                                  .fieldtype
+                                                  .toString() ==
+                                              "Date"
+                                          ? true
+                                          : false,
+                                      id: thisQuestions[index].id!,
+                                      textInputType: thisQuestions[index]
+                                                  .fieldtype
+                                                  .toString() ==
+                                              "Number"
+                                          ? TextInputType.number
+                                          : thisQuestions[index]
+                                                      .fieldtype
+                                                      .toString() ==
+                                                  "Text"
+                                              ? TextInputType.text
+                                              : TextInputType.multiline,
+                                      question: thisQuestions[index].label,
+                                    )
+                            ],
+                          ));
+                    }));
               }, QuestionController.instance.questions)
             ],
           );

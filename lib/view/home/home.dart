@@ -9,6 +9,7 @@ import 'package:verification/view/widget/text.dart';
 
 import '../../controller/network_calls/create_new_verification.dart';
 import '../../controller/network_calls/report_controller.dart';
+import '../report/report_form.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -28,7 +29,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // Your actual Fab
         onPressed: () async {
           //  NewVerificationCall.makeRequest(context);
-          ReportController.instance.clear();
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            ReportController.instance.clear();
+          });
           PageRouting.pushToPage(context, const ReportForm());
 
           // PageRouting.pushToPage(context, const QuestionScreen());

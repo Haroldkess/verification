@@ -22,6 +22,9 @@ class Api {
 
   static const updateVerificatioApi =
       "f0377c07-e738-494f-a5ae-7be9e1330695/startTrigger?workflowApiKey=retool_wk_72393f760340412c9d0d7d36251b9d6e";
+
+  static const cloudFareImageUploadApi =
+      " https://api.cloudflare.com/client/v4/accounts/f3cf0f0442de28182c41a584b8e5cd7c/images/v1";
 }
 
 String header = "application/json";

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:verification/controller/network_calls/question_call.dart';
 import 'package:verification/controller/network_calls/report_controller.dart';
 import 'package:verification/controller/network_calls/verification_call.dart';
+import 'package:verification/view/questions/question_filter.dart';
 import 'package:verification/view/verification/report_modal.dart';
 import 'package:verification/view/verification/verification_view.dart';
 import 'package:verification/view/widget/loader.dart';
@@ -18,92 +19,10 @@ class QuestionsCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: double.infinity,
-          height: 50,
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () {
-                  reportModal(context, true, [
-                    'field',
-                    'farm',
-                  ]);
-                },
-                child: Container(
-                  height: 35,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1),
-                      border: Border.all(
-                          width: 2.0,
-                          color: Colors.green,
-                          style: BorderStyle.solid),
-                      borderRadius: BorderRadius.circular(6)),
-                  child: ObxValue((value) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.done,
-                          color: Colors.green,
-                          size: 15,
-                        ),
-                        AppText(
-                          text: " ${value.value ?? ""}",
-                          color: Colors.green,
-                        ),
-                      ],
-                    );
-                  }, ReportController.instance.level),
-                ),
-              ),
-              const SizedBox(
-                width: 7,
-              ),
-              InkWell(
-                onTap: () {
-                  reportModal(context, false, [
-                    'pre-visit',
-                    'on-visit',
-                    'post-visit',
-                    'verifier-Visit',
-                    'lab-Test'
-                  ]);
-                },
-                child: Container(
-                  height: 35,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1),
-                      border: Border.all(
-                          width: 2.0,
-                          color: Colors.green,
-                          style: BorderStyle.solid),
-                      borderRadius: BorderRadius.circular(6)),
-                  child: ObxValue((value) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.done,
-                          color: Colors.green,
-                          size: 15,
-                        ),
-                        AppText(
-                          text: " ${value.value ?? ""}",
-                          color: Colors.green,
-                        ),
-                      ],
-                    );
-                  }, ReportController.instance.type),
-                ),
-              )
-            ],
-          ),
-        ),
+        ObxValue((load) {
+          return Visibility(
+              visible: load.value ? false : true, child: QuestionFilter());
+        }, QuestionController.instance.isLoading),
         Expanded(
           child: GetBuilder(
               init: QuestionController(),

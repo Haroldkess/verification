@@ -3,6 +3,7 @@
 //     final verificationModel = verificationModelFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,20 +27,23 @@ class QuestionModel {
   dynamic label;
   dynamic readOnlyWhen;
   RxList<String>? answer = <String>[].obs;
+  RxList<String>? notes = <String>[].obs;
+  RxList<String>? image = <String>[].obs;
 
-  QuestionModel({
-    this.id,
-    this.qNumber,
-    this.category,
-    this.ecosystem,
-    this.questionlevel,
-    this.collectionstage,
-    this.sublevel,
-    this.fieldtype,
-    this.label,
-    this.readOnlyWhen,
-    this.answer,
-  });
+  QuestionModel(
+      {this.id,
+      this.qNumber,
+      this.category,
+      this.ecosystem,
+      this.questionlevel,
+      this.collectionstage,
+      this.sublevel,
+      this.fieldtype,
+      this.label,
+      this.readOnlyWhen,
+      this.answer,
+      this.notes,
+      this.image});
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) => QuestionModel(
         id: json["id"],

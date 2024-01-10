@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:verification/controller/network_calls/report_controller.dart';
 import 'package:verification/model/question_model.dart';
 import 'package:verification/model/verification_model.dart';
 
@@ -69,10 +70,20 @@ class QuestionController extends GetxController {
 
   RxBool isLoading = false.obs;
   RxList<QuestionModel> questions = <QuestionModel>[].obs;
+  RxList<QuestionModel> allQuestions = <QuestionModel>[].obs;
   RxList category = <String>[].obs;
   Future<void> addQuestionData(List<QuestionModel> data) async {
     questions.value = data;
-    await categoryList(data);
+    allQuestions.value = data;
+    final thisQuestions = questions
+        .where((element) =>
+            element.questionlevel.toString().toLowerCase() ==
+            ReportController.instance.level.value.toLowerCase())
+        .where((element) =>
+            element.collectionstage.toString().toLowerCase() ==
+            ReportController.instance.type.value.toLowerCase())
+        .toList();
+    await categoryList(thisQuestions, true);
   }
 
   Future<void> categoryList(List<QuestionModel> data, [bool? isNew]) async {
@@ -105,6 +116,28 @@ class QuestionController extends GetxController {
       questions.where((p0) => p0.id == id).first.answer!.clear();
       questions.where((p0) => p0.id == id).first.answer!.add(data);
       consoleLog(questions.where((p0) => p0.id == id).first.answer!.first);
+    }
+    update();
+  }
+
+  void addNote(String data, int id) async {
+    List lister = questions.where((p0) => p0.id == id).toList();
+    if (lister.isNotEmpty) {
+      questions.where((p0) => p0.id == id).first.notes = [""].obs;
+      questions.where((p0) => p0.id == id).first.notes!.clear();
+      questions.where((p0) => p0.id == id).first.notes!.add(data);
+      consoleLog(questions.where((p0) => p0.id == id).first.notes!.first);
+    }
+    update();
+  }
+
+  void addImage(String data, int id) async {
+    List lister = questions.where((p0) => p0.id == id).toList();
+    if (lister.isNotEmpty) {
+      questions.where((p0) => p0.id == id).first.image = [""].obs;
+      questions.where((p0) => p0.id == id).first.image!.clear();
+      questions.where((p0) => p0.id == id).first.image!.add(data);
+      consoleLog(questions.where((p0) => p0.id == id).first.image!.first);
     }
     update();
   }
