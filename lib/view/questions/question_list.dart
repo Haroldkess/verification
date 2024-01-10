@@ -31,8 +31,9 @@ class QuestionList extends StatelessWidget {
                           return Padding(
                               padding: const EdgeInsets.only(bottom: 2),
                               child: QuestionView(
-                                  //   q: q.questions[index],
-                                  ));
+                                //   q: q.questions[index],
+                                controller: q,
+                              ));
                         }),
                   );
           }, QuestionController.instance.isLoading);

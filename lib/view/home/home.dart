@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:verification/controller/network_calls/question_call.dart';
 import 'package:verification/controller/network_calls/verification_call.dart';
 import 'package:verification/view/questions/question_screen.dart';
+import 'package:verification/view/verification/report_modal.dart';
 import 'package:verification/view/verification/verification_list.dart';
 import 'package:verification/view/widget/allNavigation.dart';
 import 'package:verification/view/widget/text.dart';
 
 import '../../controller/network_calls/create_new_verification.dart';
+import '../../controller/network_calls/report_controller.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -25,9 +27,11 @@ class _MyHomePageState extends State<MyHomePage> {
         shape: StadiumBorder(),
         // Your actual Fab
         onPressed: () async {
-          NewVerificationCall.makeRequest(context);
+          //  NewVerificationCall.makeRequest(context);
+          ReportController.instance.clear();
+          PageRouting.pushToPage(context, const ReportForm());
 
-          PageRouting.pushToPage(context, const QuestionScreen());
+          // PageRouting.pushToPage(context, const QuestionScreen());
         },
         enableFeedback: true,
         backgroundColor: Colors.black,

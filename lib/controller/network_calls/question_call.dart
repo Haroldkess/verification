@@ -75,13 +75,27 @@ class QuestionController extends GetxController {
     await categoryList(data);
   }
 
-  Future<void> categoryList(List<QuestionModel> data) async {
-    await Future.forEach(data, (element) {
-      if (category.contains(element.category)) {
-      } else {
-        category.add(element.category);
-      }
-    });
+  Future<void> categoryList(List<QuestionModel> data, [bool? isNew]) async {
+    if (isNew == true) {
+      category.value = <String>[];
+      await Future.forEach(data, (element) async {
+        if (category.contains(element.category)) {
+          //  category.add(element.category);
+        } else {
+          category.add(element.category);
+        }
+      });
+      consoleLog("Done");
+    } else {
+      await Future.forEach(data, (element) {
+        if (category.contains(element.category)) {
+        } else {
+          category.add(element.category);
+        }
+      });
+    }
+
+    update();
   }
 
   void addAnswer(String data, int id) async {

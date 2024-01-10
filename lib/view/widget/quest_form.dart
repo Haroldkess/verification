@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:verification/controller/network_calls/question_call.dart';
+import 'package:verification/controller/network_calls/report_controller.dart';
 import 'package:verification/view/widget/text.dart';
 import 'package:intl/intl.dart';
 import '../../controller/backoffice/api_url.dart';
@@ -141,6 +142,59 @@ class _QuestionFormState extends State<QuestionForm> {
               borderSide: BorderSide.none),
         ),
       ),
+    );
+  }
+}
+
+class AppForm extends StatelessWidget {
+  final String? title;
+  TextEditingController? controller;
+  bool? isField;
+  AppForm({super.key, this.title, this.controller, this.isField});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Container(
+              constraints: BoxConstraints(maxWidth: Get.width * 0.8),
+              child: AppText(
+                text: title ?? "",
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 2,
+        ),
+        Center(
+          child: TextFormField(
+              controller: controller,
+              onChanged: (val) {
+                isField == true
+                    ? ReportController.instance.addFieldName(val)
+                    : ReportController.instance.addFarmName(val);
+              },
+              style: GoogleFonts.overpass(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey.withOpacity(.3),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide: BorderSide.none),
+              )),
+        )
+      ],
     );
   }
 }

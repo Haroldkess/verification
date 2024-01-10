@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:verification/controller/network_calls/report_controller.dart';
 import 'package:verification/controller/network_calls/verification_call.dart';
 import 'package:verification/view/home/home.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -24,6 +25,7 @@ class Operations {
     Get.put(QuestionController());
     Get.put(CreateNewVerificationController());
     Get.put(UpdateVerificationController());
+    Get.put(ReportController());
   }
 
   static String times(DateTime time) {
