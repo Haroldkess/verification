@@ -18,15 +18,6 @@ class VerificationCall {
     VerificationController.instance.load(true);
 
     if (pref.containsKey(TempStore.tokenKey)) {
-      //var data = await Database.read(Database.userKey);
-      // consoleLog(data.toString());
-      // var decode = await jsonDecode(jsonEncode(data));
-      // var existingData = ShopModel.fromJson(decode);
-      // login.createShop(existingData);
-
-      // pref.setBool(TempStore.isLoggedInKey, true);
-
-      //    log(existingData.data!.user!.username.toString());
     } else {
       http.Response? response = await RequestData.getApi(
         url,
@@ -46,9 +37,6 @@ class VerificationCall {
 
         // var data = await Database.read(Database.userKey);
         // var decode = await jsonDecode(jsonEncode(data));
-        //var existingData = ShopModel.fromJson(decode);
-        // login.createShop(existingData);
-        // TempStore.storeToken(login.shopModel.data!.token);
       } else {
         consoleLog("others");
         //  var jsonData = jsonDecode(response.body);
