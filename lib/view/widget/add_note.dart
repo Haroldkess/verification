@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:verification/controller/operation/operation.dart';
+import 'package:verification/view/widget/allNavigation.dart';
 import 'package:verification/view/widget/quest_form.dart';
 import 'package:verification/view/widget/text.dart';
 
@@ -14,6 +15,7 @@ addNoteModal(
   return showModalBottomSheet(
       context: cont,
       isScrollControlled: true,
+      isDismissible: false,
       //  backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
@@ -32,6 +34,20 @@ addNoteModal(
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                            onPressed: () => PageRouting.popToPage(context),
+                            icon: Icon(
+                              Icons.clear,
+                              color: Colors.red,
+                            ))
+                      ],
+                    ),
                     SizedBox(
                       height: 30,
                     ),

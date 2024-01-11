@@ -77,10 +77,6 @@ class Operations {
     cloudflare = Cloudflare.basic();
     await cloudflare.init();
     try {
-      //Initialize both [CreatePost] && [UserProfile] State
-      // CreatePostWare picked =
-      //     Provider.of<CreatePostWare>(context, listen: false);
-
       final List<ImageObject>? objects = await Navigator.of(context)
           .push(PageRouteBuilder(pageBuilder: (context, animation, __) {
         return const ImagePicker(
@@ -99,30 +95,18 @@ class Operations {
 
       QuestionController.instance.addFile(recievedFiles.first.path, id);
 
-      // CloudflareHTTPResponse<CloudflareImage?> responseFromFile =
-      //     await cloudflare.imageAPI.upload(
-      //         contentFromFile: DataTransmit<File>(
-      //             data: recievedFiles.first,
-      //             progressCallback: (count, total) {
-      //               print('Upload progress: $count/$total');
-      //             }));
-
-      // if (responseFromFile.isSuccessful) {
-      //   consoleLog("good");
-      // } else {
-      //   consoleLog("bad");
-      // }
-      //  emitter(file.first.path.toString());
-      //  picked.addFile(recievedFiles);
-
-      // ignore: use_build_context_synchronously
-      // PageRouting.pushToPage(context, const CreatePostScreen());
+      //call api here to upload and get
+      await uploadImage(recievedFiles.first, id);
     } catch (e) {
       consoleLog(e.toString());
-      //Display error to user
-      // ignore: use_build_context_synchronously
-      //showToast2(context, "Oops!! ${e.toString()}", isError: true);
+
       return;
     }
+  }
+
+// write code to upload and retrieve image
+  static Future<void> uploadImage(File imageData, int id) async {
+    //store here after retrieving
+    QuestionController.instance.addImage("<retreived Url>", id);
   }
 }
