@@ -24,7 +24,7 @@ class Api {
       "4c38116b-b38e-4943-a2d3-7587487537fe/startTrigger?workflowApiKey=retool_wk_3514dbdef2d14fc98a65aeb846c44b10";
 
   static const cloudFareImageUploadApi =
-      " https://api.cloudflare.com/client/v4/accounts/f3cf0f0442de28182c41a584b8e5cd7c/images/v1";
+      "https://api.cloudflare.com/client/v4/accounts/9707d050971c5a140c058224f856122a/images/v1";
 
   static const acountId = "9707d050971c5a140c058224f856122a";
   static const cloudToken = "mkjwmj-ZY_p22Ab9i9l0R54Z9six-iKmLUIh2pfN";

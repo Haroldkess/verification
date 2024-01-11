@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:advance_image_picker/models/image_object.dart';
@@ -6,6 +7,7 @@ import 'package:cloudflare/cloudflare.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:verification/controller/backoffice/api_url.dart';
+import 'package:verification/controller/network_calls/image_upload_call.dart';
 import 'package:verification/controller/network_calls/report_controller.dart';
 import 'package:verification/controller/network_calls/verification_call.dart';
 import 'package:verification/model/image_model.dart';
@@ -13,6 +15,7 @@ import 'package:verification/view/home/home.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../main.dart';
 import '../../view/widget/allNavigation.dart';
+import 'package:http/http.dart' as http;
 import '../network_calls/create_new_verification.dart';
 import '../network_calls/question_call.dart';
 import '../network_calls/update_verification_call.dart';
@@ -70,12 +73,12 @@ class Operations {
 
   static Future pickForPost(BuildContext context, int id) async {
     Cloudflare cloudflare = Cloudflare(
-      apiUrl: Api.cloudFareImageUploadApi,
+      //  apiUrl: Api.cloudFareImageUploadApi,
       accountId: Api.acountId,
       token: Api.cloudToken,
     );
 
-    cloudflare = Cloudflare.basic();
+    cloudflare = Cloudflare.basic(apiUrl: Api.cloudFareImageUploadApi);
     await cloudflare.init();
     try {
       final List<ImageObject>? objects = await Navigator.of(context)
@@ -97,7 +100,7 @@ class Operations {
       QuestionController.instance.addFile(recievedFiles.first.path, id);
 
       //call api here to upload and get
-      await uploadImage(recievedFiles.first, id);
+      await uploadImage(recievedFiles.first, id, cloudflare);
     } catch (e) {
       consoleLog(e.toString());
       return;
@@ -105,10 +108,31 @@ class Operations {
   }
 
 // write code to upload and retrieve image
-  static Future<void> uploadImage(File imageData, int id) async {
+  static Future<void> uploadImage(
+      File imageData, int id, Cloudflare cloudflare) async {
     //use existing  ImageModel(); to decode response
 
-    //send  image url here after retrieving so it can save in ui and answer
-    QuestionController.instance.addImage("<retreived Url>", id);
+    try {
+      http.StreamedResponse? response =
+          await ImageUplloadCall.makeRequest(imageData);
+
+      if (response == null) {
+        consoleLog("null");
+      } else if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        var incomingData = ImageModel.fromJson(jsonData);
+        consoleLog("done");
+        //send  image url here after retrieving so it can save in ui and answer
+        QuestionController.instance
+            .addImage(incomingData.result!.variants!.first.toString(), id);
+      } else {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        consoleLog("something else ${jsonData.toString()}");
+      }
+    } catch (e) {
+      consoleLog(e.toString());
+    }
   }
 }
