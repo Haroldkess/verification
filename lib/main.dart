@@ -1,15 +1,10 @@
 import 'dart:io';
-
 import 'package:advance_image_picker/advance_image_picker.dart';
-import 'package:advance_image_picker/configs/image_picker_configs.dart';
-import 'package:advance_image_picker/widgets/editors/image_sticker.dart';
-import 'package:cloudflare/cloudflare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:verification/controller/operation/operation.dart';
-import 'package:verification/view/home/home.dart';
 import 'package:verification/view/on_board/splash.dart';
 import 'package:intl/intl.dart';
 import 'controller/backoffice/db.dart';

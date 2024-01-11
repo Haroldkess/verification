@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +33,7 @@ class UpdateVerificationCall {
     String url = Api.baseUrl + Api.updateVerificatioApi;
     List<Answers> maps = [];
 
-    await Future.forEach(QuestionController.instance.questions, (element) {
+    await Future.forEach(QuestionController.instance.allQuestions, (element) {
       maps.add(Answers(
           element.qNumber,
           element.label,
@@ -41,14 +42,15 @@ class UpdateVerificationCall {
           element.image == null ? null : element.image!.first));
     });
 
-    var map = Map.fromIterable(maps,
-        key: (e) => e.number,
-        value: (e) => {
-              'label': e.question,
-              'value': e.value,
-              'notes': e.note,
-              'media': [e.media]
-            });
+    var map = {
+      for (var e in maps)
+        e.number: {
+          'label': e.question,
+          'value': e.value,
+          'notes': e.note,
+          'media': e.image == null ? [] : [e.image]
+        }
+    };
 
     UpdateModel body = UpdateModel(
         status: "submitted",
@@ -56,7 +58,7 @@ class UpdateVerificationCall {
         id: CreateNewVerificationController
             .instance.newVerification.value.insertId);
 
-    consoleLog(body.toJson().toString());
+    //log(body.toJson().toString());
     UpdateVerificationController.instance.load(true);
 
     http.Response? response = await RequestData.postApi(url, null, body);
@@ -67,7 +69,7 @@ class UpdateVerificationCall {
 
       try {
         await VerificationCall.makeRequest(context)
-            .whenComplete(() => Get.back());
+            .whenComplete(() => Get.close(2));
       } catch (e) {
         consoleLog(e.toString());
       }

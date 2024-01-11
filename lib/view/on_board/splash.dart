@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:verification/controller/operation/operation.dart';
 import 'package:verification/view/home/home.dart';
@@ -18,11 +19,15 @@ class _SplashState extends State<Splash> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        child: Center(
-          child: AppText(
-            text: "Verification",
-            size: 24,
-            fontWeight: FontWeight.bold,
+        child: BounceInDown(
+          duration: const Duration(seconds: 5),
+          animate: true,
+          child: Center(
+            child: AppText(
+              text: "Verification",
+              size: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

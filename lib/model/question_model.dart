@@ -49,12 +49,12 @@ class QuestionModel {
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) => QuestionModel(
         id: json["id"],
-        qNumber: json["qNumber"],
+        qNumber: json["q_number"],
         category: json["category"],
         ecosystem: json["ecosystem"],
         questionlevel: json["questionlevel"],
         collectionstage: json["collectionstage"],
-        sublevel: json["sublevel"],
+        sublevel: json["sub_level"],
         fieldtype: json["fieldtype"],
         label: json["label"],
         readOnlyWhen: json["read_only_when"],
@@ -62,12 +62,12 @@ class QuestionModel {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "qNumber": qNumber,
+        "q_number": qNumber,
         "category": category,
         "ecosystem": ecosystem,
         "questionlevel": questionlevel,
         "collectionstage": collectionstage,
-        "sublevel": sublevel,
+        "sub_level": sublevel,
         "fieldtype": fieldtype,
         "label": label,
         "read_only_when": readOnlyWhen,

@@ -43,34 +43,57 @@ class _QuestionFormState extends State<QuestionForm> {
         Row(
           children: [
             Expanded(
-              //   constraints: BoxConstraints(maxWidth: Get.width * 0.8),
               child: AppText(
                 text: widget.question ?? "",
                 fontWeight: FontWeight.bold,
+                height: 0,
+                align: TextAlign.left,
               ),
             ),
           ],
         ),
         ObxValue((q) {
-          List check = q.where((p0) => p0.id == widget.id).first.answer ?? [];
           List file = q.where((p0) => p0.id == widget.id).first.file ?? [];
           List note = q.where((p0) => p0.id == widget.id).first.notes ?? [];
-          return Row(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 10,
-                backgroundColor: Colors.transparent,
-                backgroundImage: file.isEmpty ? null : FileImage(file.first),
+              file.isEmpty && note.isEmpty
+                  ? SizedBox.shrink()
+                  : const SizedBox(
+                      height: 5,
+                    ),
+              Row(
+                children: [
+                  file.isEmpty
+                      ? SizedBox.shrink()
+                      : CircleAvatar(
+                          radius: 10,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage:
+                              file.isEmpty ? null : FileImage(file.first),
+                        ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  note.isEmpty
+                      ? SizedBox.shrink()
+                      : note.first.isEmpty
+                          ? SizedBox.shrink()
+                          : Expanded(
+                              child: AppText(
+                              text: note.isEmpty ? "" : "Note: ${note.first}",
+                              align: TextAlign.left,
+                              color: Colors.grey,
+                            ))
+                ],
               ),
-              SizedBox(
-                width: 3,
-              ),
-              Expanded(
-                  child:
-                      AppText(text: note.isEmpty ? "" : "Note: ${note.first}"))
             ],
           );
         }, QuestionController.instance.questions),
+        const SizedBox(
+          height: 2,
+        ),
         ObxValue((q) {
           List check = q.where((p0) => p0.id == widget.id).first.answer ?? [];
           List note = q.where((p0) => p0.id == widget.id).first.notes ?? [];
@@ -121,6 +144,9 @@ class _QuestionFormState extends State<QuestionForm> {
                   ),
           );
         }, QuestionController.instance.questions),
+        const SizedBox(
+          height: 10,
+        )
       ],
     );
   }
@@ -224,6 +250,7 @@ class AppForm extends StatelessWidget {
               child: AppText(
                 text: title ?? "",
                 fontWeight: FontWeight.bold,
+                size: 16,
               ),
             ),
           ],

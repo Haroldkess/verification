@@ -62,6 +62,7 @@ class AppDropDown extends StatelessWidget {
               child: AppText(
                 text: "Collection stage",
                 fontWeight: FontWeight.bold,
+                size: 16,
               ),
             ),
           ],
@@ -70,31 +71,39 @@ class AppDropDown extends StatelessWidget {
           height: 2,
         ),
         Container(
-          decoration: BoxDecoration(color: Colors.grey.withOpacity(.4)),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.grey.withOpacity(.4)),
           child: Center(
             child: GetBuilder(
                 init: ReportController(),
                 builder: (select) {
-                  return DropdownButton(
-                      // Initial Value
-                      value: select.type.value,
-                      alignment: Alignment.centerLeft,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: DropdownButtonFormField(
+                        // Initial Value
+                        value: select.type.value,
+                        alignment: Alignment.centerLeft,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide.none)),
 
-                      // Down Arrow Icon
-                      //  icon: const Icon(Icons.keyboard_arrow_down),
+                        // Down Arrow Icon
+                        //  icon: const Icon(Icons.keyboard_arrow_down),
 
-                      // Array list of items
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (val) {
-                        select.addType(val);
-                      });
+                        // Array list of items
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (val) {
+                          select.addType(val);
+                        }),
+                  );
                 }),
           ),
         ),
@@ -128,6 +137,7 @@ class AppDropDownReport extends StatelessWidget {
                     child: AppText(
                       text: "Question level",
                       fontWeight: FontWeight.bold,
+                      size: 16,
                     ),
                   ),
                 ],
@@ -166,6 +176,7 @@ class AppDropDownReport extends StatelessWidget {
               )
             : Container(
                 decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
                     color: isQuestion == true
                         ? null
                         : Colors.grey.withOpacity(.4)),
@@ -173,26 +184,32 @@ class AppDropDownReport extends StatelessWidget {
                   child: GetBuilder(
                       init: ReportController(),
                       builder: (select) {
-                        return DropdownButton(
-                            // Initial Value
-                            value: select.level.value,
-                            alignment: Alignment.centerLeft,
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: DropdownButtonFormField(
+                              // Initial Value
+                              value: select.level.value,
+                              alignment: Alignment.centerLeft,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none)),
 
-                            // Down Arrow Icon
-                            //  icon: const Icon(Icons.keyboard_arrow_down),
+                              // Down Arrow Icon
+                              //  icon: const Icon(Icons.keyboard_arrow_down),
 
-                            // Array list of items
-                            items: items.map((String items) {
-                              return DropdownMenuItem(
-                                value: items,
-                                child: Text(items),
-                              );
-                            }).toList(),
-                            // After selecting the desired option,it will
-                            // change button value to selected value
-                            onChanged: (val) {
-                              select.addLevel(val);
-                            });
+                              // Array list of items
+                              items: items.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              // After selecting the desired option,it will
+                              // change button value to selected value
+                              onChanged: (val) {
+                                select.addLevel(val);
+                              }),
+                        );
                       }),
                 ),
               ),

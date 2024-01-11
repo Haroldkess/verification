@@ -19,38 +19,58 @@ class YesOrNo extends StatelessWidget {
       children: [
         Row(
           children: [
-            Container(
-              constraints: BoxConstraints(maxWidth: Get.width * 0.8),
+            Expanded(
               child: AppText(
                 text: question ?? "",
                 fontWeight: FontWeight.bold,
+                height: 0,
+                align: TextAlign.left,
               ),
             ),
           ],
         ),
-        const SizedBox(
-          height: 2,
-        ),
         ObxValue((q) {
-          List check = q.where((p0) => p0.id == id).first.answer ?? [];
           List file = q.where((p0) => p0.id == id).first.file ?? [];
           List note = q.where((p0) => p0.id == id).first.notes ?? [];
-          return Row(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 10,
-                backgroundColor: Colors.transparent,
-                backgroundImage: file.isEmpty ? null : FileImage(file.first),
+              file.isEmpty && note.isEmpty
+                  ? SizedBox.shrink()
+                  : const SizedBox(
+                      height: 5,
+                    ),
+              Row(
+                children: [
+                  file.isEmpty
+                      ? SizedBox.shrink()
+                      : CircleAvatar(
+                          radius: 10,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage:
+                              file.isEmpty ? null : FileImage(file.first),
+                        ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  note.isEmpty
+                      ? SizedBox.shrink()
+                      : note.first.isEmpty
+                          ? SizedBox.shrink()
+                          : Expanded(
+                              child: AppText(
+                              text: note.isEmpty ? "" : "Note: ${note.first}",
+                              align: TextAlign.left,
+                              color: Colors.grey,
+                            ))
+                ],
               ),
-              SizedBox(
-                width: 3,
-              ),
-              Expanded(
-                  child:
-                      AppText(text: note.isEmpty ? "" : "Note: ${note.first}"))
             ],
           );
         }, QuestionController.instance.questions),
+        const SizedBox(
+          height: 2,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -72,6 +92,7 @@ class YesOrNo extends StatelessWidget {
                             onTap: () {
                               QuestionController.instance.addAnswer(e, id);
                               FocusScope.of(context).unfocus();
+                              consoleLog(question!.toString());
                               //   Focus.of(context).unfocus();
                             },
                             child: Container(
@@ -104,6 +125,9 @@ class YesOrNo extends StatelessWidget {
               },
             )
           ],
+        ),
+        const SizedBox(
+          height: 10,
         ),
       ],
     );

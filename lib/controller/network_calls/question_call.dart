@@ -70,6 +70,7 @@ class QuestionController extends GetxController {
   }
 
   RxBool isLoading = false.obs;
+  RxBool uploading = false.obs;
   RxList<QuestionModel> questions = <QuestionModel>[].obs;
   RxList<QuestionModel> allQuestions = <QuestionModel>[].obs;
   RxList category = <String>[].obs;
@@ -107,6 +108,10 @@ class QuestionController extends GetxController {
       });
     }
 
+    update();
+  }
+
+  void reBuild() {
     update();
   }
 
@@ -156,5 +161,10 @@ class QuestionController extends GetxController {
 
   void load(bool data) {
     isLoading.value = data;
+  }
+
+  void upload(bool data) {
+    uploading.value = data;
+    update();
   }
 }

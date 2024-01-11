@@ -17,6 +17,7 @@ class VerificationModel {
   Map<String, Response>? response;
   DateTime? createdAt;
   String? createdBy;
+  VerificationInfo? verificationInfo;
 
   VerificationModel({
     this.id,
@@ -24,6 +25,7 @@ class VerificationModel {
     this.response,
     this.createdAt,
     this.createdBy,
+    this.verificationInfo,
   });
 
   factory VerificationModel.fromJson(Map<String, dynamic> json) =>
@@ -36,6 +38,9 @@ class VerificationModel {
             ? null
             : DateTime.parse(json["created_at"]),
         createdBy: json["created_by"],
+        verificationInfo: json["verification_info"] == null
+            ? null
+            : VerificationInfo.fromJson(json["verification_info"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,5 +72,38 @@ class Response {
   Map<String, dynamic> toJson() => {
         "label": label,
         "value": value,
+      };
+}
+
+class VerificationInfo {
+  String? type;
+  String? visit;
+  String? farmName;
+  String? fieldName;
+  String? visitType;
+
+  VerificationInfo({
+    this.type,
+    this.visit,
+    this.farmName,
+    this.fieldName,
+    this.visitType,
+  });
+
+  factory VerificationInfo.fromJson(Map<String, dynamic> json) =>
+      VerificationInfo(
+        type: json["type"],
+        visit: json["visit"],
+        farmName: json["farmName"],
+        fieldName: json["fieldName"],
+        visitType: json["visitType"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "visit": visit,
+        "farmName": farmName,
+        "fieldName": fieldName,
+        "visitType": visitType,
       };
 }

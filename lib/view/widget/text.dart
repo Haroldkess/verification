@@ -11,6 +11,7 @@ class AppText extends StatelessWidget {
   TextAlign? align;
   double? letterSpacing;
   double? size;
+  double? height;
   AppText(
       {Key? key,
       required this.text,
@@ -20,7 +21,9 @@ class AppText extends StatelessWidget {
       this.fontWeight,
       this.align,
       this.letterSpacing,
-      this.color, this.size})
+      this.color,
+      this.height,
+      this.size})
       : super(key: key);
 
   @override
@@ -31,15 +34,13 @@ class AppText extends StatelessWidget {
       textScaleFactor: scaleFactor,
       overflow: overflow,
       textAlign: align,
-      style: GoogleFonts.plusJakartaSans(
+      style: GoogleFonts.openSans(
           textStyle: TextStyle(
-        fontWeight: fontWeight,
-        color: color,
-        decorationStyle: TextDecorationStyle.solid,
-        fontSize: size
-      )),
+              fontWeight: fontWeight,
+              color: color,
+              height: height,
+              decorationStyle: TextDecorationStyle.solid,
+              fontSize: size)),
     );
   }
 }
-
-

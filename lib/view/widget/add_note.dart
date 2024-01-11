@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:verification/controller/operation/operation.dart';
 import 'package:verification/view/widget/allNavigation.dart';
+import 'package:verification/view/widget/loader.dart';
 import 'package:verification/view/widget/quest_form.dart';
 import 'package:verification/view/widget/text.dart';
 
@@ -29,88 +30,118 @@ addNoteModal(
           child: Container(
             //  color: Colors.transparent,
             child: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: ObxValue((q) {
-                List check = q.where((p0) => p0.id == id).first.notes ?? [];
-                List image = q.where((p0) => p0.id == id).first.image ?? [];
-                List file = q.where((p0) => p0.id == id).first.file ?? [];
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                              onPressed: () => PageRouting.popToPage(context),
-                              icon: Icon(
-                                Icons.clear,
-                                color: Colors.red,
-                              ))
-                        ],
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      AppText(text: "Add details"),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: GetBuilder(
+                    init: QuestionController(),
+                    builder: (question) {
+                      return SingleChildScrollView(
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            InkWell(
-                                onTap: () =>
-                                    Operations.pickForPost(context, id),
-                                child: Container(
-                                  height: 100,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: FileImage(file.first)),
-                                      // color: Colors.white,
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.image_search,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                )),
                             SizedBox(
-                              height: 10,
+                              height: 30,
                             ),
-                            AppForm(
-                              title: "Note",
-                              isNote: true,
-                              initValue: check.isEmpty ? "" : check.first,
-                              id: id,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            AppButton(
-                                text: "Okay",
-                                onTap: () {
-                                  Get.back();
-                                }),
+                            AppText(text: "Add details"),
                             SizedBox(
                               height: 20,
                             ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: ObxValue((q) {
+                                List check =
+                                    q.where((p0) => p0.id == id).first.notes ??
+                                        [];
+                                List image =
+                                    q.where((p0) => p0.id == id).first.image ??
+                                        [];
+                                List file =
+                                    q.where((p0) => p0.id == id).first.file ??
+                                        [];
+                                return Column(
+                                  children: [
+                                    InkWell(
+                                        onTap: () =>
+                                            Operations.pickForPost(context, id),
+                                        child: Container(
+                                          height: 100,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  width: 1.5,
+                                                  color: Colors.black),
+                                              borderRadius:
+                                                  BorderRadius.circular(12)),
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              image.isEmpty && file.isEmpty
+                                                  ? SizedBox.shrink()
+                                                  : image.isEmpty &&
+                                                          file.isNotEmpty
+                                                      ? Image.file(
+                                                          file.first,
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : image.isNotEmpty
+                                                          ? Image.network(
+                                                              image.first,
+                                                              fit: BoxFit.cover)
+                                                          : SizedBox.shrink(),
+                                              Center(
+                                                child: Icon(
+                                                  Icons.image_search,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    AppForm(
+                                      title: "Note",
+                                      isNote: true,
+                                      initValue:
+                                          check.isEmpty ? "" : check.first,
+                                      id: id,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    ObxValue((uploading) {
+                                      return uploading.value
+                                          ? Visibility(
+                                              visible: uploading.value
+                                                  ? uploading.value
+                                                  : false,
+                                              child: Loader())
+                                          : Visibility(
+                                              visible: uploading.value
+                                                  ? false
+                                                  : true,
+                                              child: AppButton(
+                                                  text: "Okay",
+                                                  onTap: () {
+                                                    QuestionController.instance
+                                                        .reBuild();
+                                                    Get.back();
+                                                  }),
+                                            );
+                                    }, QuestionController.instance.uploading),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                  ],
+                                );
+                              }, QuestionController.instance.questions),
+                            )
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                );
-              }, QuestionController.instance.questions),
-            ),
+                      );
+                    })),
           ),
         );
       });

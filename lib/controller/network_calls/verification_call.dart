@@ -57,6 +57,7 @@ class VerificationController extends GetxController {
   RxList<VerificationModel> verifications = <VerificationModel>[].obs;
   Future<void> addVerificationData(List<VerificationModel> data) async {
     verifications.value = data;
+    update();
   }
 
   void load(bool data) {

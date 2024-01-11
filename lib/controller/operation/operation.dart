@@ -1,18 +1,20 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:advance_image_picker/models/image_object.dart';
 import 'package:advance_image_picker/widgets/picker/image_picker.dart';
-import 'package:cloudflare/cloudflare.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:verification/controller/backoffice/api_url.dart';
 import 'package:verification/controller/network_calls/image_upload_call.dart';
 import 'package:verification/controller/network_calls/report_controller.dart';
 import 'package:verification/controller/network_calls/verification_call.dart';
+import 'package:verification/controller/operation/operation_ext.dart';
 import 'package:verification/model/image_model.dart';
 import 'package:verification/view/home/home.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:verification/view/widget/notification.dart';
 import '../../main.dart';
 import '../../view/widget/allNavigation.dart';
 import 'package:http/http.dart' as http;
@@ -72,19 +74,12 @@ class Operations {
   }
 
   static Future pickForPost(BuildContext context, int id) async {
-    Cloudflare cloudflare = Cloudflare(
-      //  apiUrl: Api.cloudFareImageUploadApi,
-      accountId: Api.acountId,
-      token: Api.cloudToken,
-    );
-
-    cloudflare = Cloudflare.basic(apiUrl: Api.cloudFareImageUploadApi);
-    await cloudflare.init();
     try {
       final List<ImageObject>? objects = await Navigator.of(context)
           .push(PageRouteBuilder(pageBuilder: (context, animation, __) {
         return const ImagePicker(
           maxCount: 1,
+          isCaptureFirst: false,
         );
       }));
 
@@ -96,11 +91,18 @@ class Operations {
       for (ImageObject imageObject in objects) {
         recievedFiles.add(File(imageObject.modifiedPath));
       }
+      final bytes = recievedFiles.first.readAsBytesSync().lengthInBytes;
+      final kb = bytes / 1024;
+      final mb = kb / 1024;
+      // File finalFile = await OperationExt.compressAndGetFile(
+      //     recievedFiles.first, "${recievedFiles.first.path}.jpg");
+      log("${mb.toString()} MB");
+      log("${kb.toString()} KB");
 
       QuestionController.instance.addFile(recievedFiles.first.path, id);
 
       //call api here to upload and get
-      await uploadImage(recievedFiles.first, id, cloudflare);
+      await uploadImage(recievedFiles.first, id);
     } catch (e) {
       consoleLog(e.toString());
       return;
@@ -108,13 +110,12 @@ class Operations {
   }
 
 // write code to upload and retrieve image
-  static Future<void> uploadImage(
-      File imageData, int id, Cloudflare cloudflare) async {
+  static Future<void> uploadImage(File imageData, int id) async {
     //use existing  ImageModel(); to decode response
-
+    QuestionController.instance.upload(true);
     try {
       http.StreamedResponse? response =
-          await ImageUplloadCall.makeRequest(imageData);
+          await ImageUplloadCall.makeRequest(imageData, id);
 
       if (response == null) {
         consoleLog("null");
@@ -129,10 +130,12 @@ class Operations {
       } else {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
+        showBanner("Failed", jsonData["errors"][0]["message"].toString());
         consoleLog("something else ${jsonData.toString()}");
       }
     } catch (e) {
       consoleLog(e.toString());
     }
+    QuestionController.instance.upload(false);
   }
 }
