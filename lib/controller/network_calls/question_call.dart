@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart' as http;
@@ -138,6 +139,17 @@ class QuestionController extends GetxController {
       questions.where((p0) => p0.id == id).first.image!.clear();
       questions.where((p0) => p0.id == id).first.image!.add(data);
       consoleLog(questions.where((p0) => p0.id == id).first.image!.first);
+    }
+    update();
+  }
+
+  void addFile(String data, int id) async {
+    List lister = questions.where((p0) => p0.id == id).toList();
+    if (lister.isNotEmpty) {
+      questions.where((p0) => p0.id == id).first.file = [File(data)].obs;
+      questions.where((p0) => p0.id == id).first.file!.clear();
+      questions.where((p0) => p0.id == id).first.file!.add(File(data));
+      //consoleLog(questions.where((p0) => p0.id == id).first.file!.first);
     }
     update();
   }

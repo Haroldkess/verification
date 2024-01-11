@@ -31,6 +31,24 @@ class YesOrNo extends StatelessWidget {
         const SizedBox(
           height: 2,
         ),
+        ObxValue((q) {
+          List check = q.where((p0) => p0.id == id).first.answer ?? [];
+          List file = q.where((p0) => p0.id == id).first.file ?? [];
+          List note = q.where((p0) => p0.id == id).first.notes ?? [];
+          return Row(
+            children: [
+              CircleAvatar(
+                radius: 10,
+                backgroundColor: Colors.transparent,
+                backgroundImage: file.isEmpty ? null : FileImage(file.first),
+              ),
+              SizedBox(
+                width: 3,
+              ),
+              Expanded(child: AppText(text: note.isEmpty ? "" : note.first))
+            ],
+          );
+        }, QuestionController.instance.questions),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -45,6 +63,8 @@ class YesOrNo extends StatelessWidget {
                     .map((e) => ObxValue((q) {
                           List check =
                               q.where((p0) => p0.id == id).first.answer ?? [];
+                          List file =
+                              q.where((p0) => p0.id == id).first.file ?? [];
                           //  consoleLog(check.toString());
                           return InkWell(
                             onTap: () {

@@ -53,6 +53,24 @@ class _QuestionFormState extends State<QuestionForm> {
         ),
         ObxValue((q) {
           List check = q.where((p0) => p0.id == widget.id).first.answer ?? [];
+          List file = q.where((p0) => p0.id == widget.id).first.file ?? [];
+          List note = q.where((p0) => p0.id == widget.id).first.notes ?? [];
+          return Row(
+            children: [
+              CircleAvatar(
+                radius: 10,
+                backgroundColor: Colors.transparent,
+                backgroundImage: file.isEmpty ? null : FileImage(file.first),
+              ),
+              SizedBox(
+                width: 3,
+              ),
+              Expanded(child: AppText(text: note.isEmpty ? "" : note.first))
+            ],
+          );
+        }, QuestionController.instance.questions),
+        ObxValue((q) {
+          List check = q.where((p0) => p0.id == widget.id).first.answer ?? [];
           List note = q.where((p0) => p0.id == widget.id).first.notes ?? [];
           // consoleLog(check.toString());
           return Center(

@@ -29,6 +29,7 @@ class QuestionModel {
   RxList<String>? answer = <String>[].obs;
   RxList<String>? notes = <String>[].obs;
   RxList<String>? image = <String>[].obs;
+  RxList<File>? file = <File>[].obs;
 
   QuestionModel(
       {this.id,
@@ -43,7 +44,8 @@ class QuestionModel {
       this.readOnlyWhen,
       this.answer,
       this.notes,
-      this.image});
+      this.image,
+      this.file});
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) => QuestionModel(
         id: json["id"],

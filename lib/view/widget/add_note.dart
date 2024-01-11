@@ -44,7 +44,7 @@ addNoteModal(
                       child: Column(
                         children: [
                           InkWell(
-                            onTap: () => Operations.pickForPost(context),
+                            onTap: () => Operations.pickForPost(context, id),
                             child: Container(
                               height: 100,
                               width: 100,

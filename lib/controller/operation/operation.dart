@@ -67,41 +67,15 @@ class Operations {
     return realTime;
   }
 
-  static Future pickForPost(BuildContext context) async {
-    late Cloudflare cloudflare;
-    try {
-      cloudflare = Cloudflare(
-        apiUrl: apiUrl,
-        accountId: accountId,
-        token: token,
-        apiKey: apiKey,
-        accountEmail: accountEmail,
-        userServiceKey: userServiceKey,
-      );
-      await cloudflare.init();
-    } catch (e) {
-      cloudflareInitMessage = '''
-    Check your environment definitions for Cloudflare.
-    Make sure to run this app with:  
-    
-    flutter run
-    --dart-define=CLOUDFLARE_API_URL=https://api.cloudflare.com/client/v4
-    --dart-define=CLOUDFLARE_ACCOUNT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxx
-    --dart-define=CLOUDFLARE_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxx
-    --dart-define=CLOUDFLARE_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxx
-    --dart-define=CLOUDFLARE_ACCOUNT_EMAIL=xxxxxxxxxxxxxxxxxxxxxxxxxxx
-    --dart-define=CLOUDFLARE_USER_SERVICE_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxx
-    
-    Exception details:
-    ${e.toString()}
-    ''';
-      print(e);
-    }
-    // Cloudflare cloudflare = Cloudflare(
-    //   accountId: "f3cf0f0442de28182c41a584b8e5cd7c",
-    //   token: "YhGxUEPSGO_9O_k9xf3F6ImE-9c8PI-qkwKcrcgA",
-    // );
-    cloudflare = Cloudflare.basic(apiUrl: Api.cloudFareImageUploadApi);
+  static Future pickForPost(BuildContext context, int id) async {
+    Cloudflare cloudflare = Cloudflare(
+      apiUrl: Api.cloudFareImageUploadApi,
+      accountId: "9707d050971c5a140c058224f856122a",
+      token: "mkjwmj-ZY_p22Ab9i9l0R54Z9six-iKmLUIh2pfN",
+    );
+
+    cloudflare = Cloudflare.basic();
+    await cloudflare.init();
     try {
       //Initialize both [CreatePost] && [UserProfile] State
       // CreatePostWare picked =
@@ -123,20 +97,21 @@ class Operations {
         recievedFiles.add(File(imageObject.modifiedPath));
       }
 
-      //From file
-      CloudflareHTTPResponse<CloudflareImage?> responseFromFile =
-          await cloudflare.imageAPI.upload(
-              contentFromFile: DataTransmit<File>(
-                  data: recievedFiles.first,
-                  progressCallback: (count, total) {
-                    print('Upload progress: $count/$total');
-                  }));
+      QuestionController.instance.addFile(recievedFiles.first.path, id);
 
-      if (responseFromFile.isSuccessful) {
-        consoleLog("good");
-      } else {
-        consoleLog("bad");
-      }
+      // CloudflareHTTPResponse<CloudflareImage?> responseFromFile =
+      //     await cloudflare.imageAPI.upload(
+      //         contentFromFile: DataTransmit<File>(
+      //             data: recievedFiles.first,
+      //             progressCallback: (count, total) {
+      //               print('Upload progress: $count/$total');
+      //             }));
+
+      // if (responseFromFile.isSuccessful) {
+      //   consoleLog("good");
+      // } else {
+      //   consoleLog("bad");
+      // }
       //  emitter(file.first.path.toString());
       //  picked.addFile(recievedFiles);
 
