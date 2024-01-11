@@ -95,7 +95,10 @@ class QuestionController extends GetxController {
         if (category.contains(element.category)) {
           //  category.add(element.category);
         } else {
-          category.add(element.category);
+          if (element.category == null) {
+          } else {
+            category.add(element.category);
+          }
         }
       });
       consoleLog("Done");
@@ -103,7 +106,10 @@ class QuestionController extends GetxController {
       await Future.forEach(data, (element) {
         if (category.contains(element.category)) {
         } else {
-          category.add(element.category);
+          if (element.category == null) {
+          } else {
+            category.add(element.category);
+          }
         }
       });
     }

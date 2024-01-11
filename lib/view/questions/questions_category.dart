@@ -6,6 +6,7 @@ import 'package:verification/controller/network_calls/verification_call.dart';
 import 'package:verification/view/questions/question_filter.dart';
 import 'package:verification/view/verification/report_modal.dart';
 import 'package:verification/view/verification/verification_view.dart';
+import 'package:verification/view/widget/empty.dart';
 import 'package:verification/view/widget/loader.dart';
 import 'package:verification/view/widget/text.dart';
 
@@ -35,19 +36,22 @@ class QuestionsCategory extends StatelessWidget {
                       ? Center(child: Loader())
                       : Visibility(
                           visible: load.value ? false : true,
-                          child: ListView.builder(
-                              itemCount: q.category.length,
-                              physics: const BouncingScrollPhysics(),
-                              padding: EdgeInsets.only(
-                                  left: 8, right: 8, top: 8, bottom: 100),
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                    padding: const EdgeInsets.only(bottom: 2),
-                                    child: QuestionView(
-                                      q: q.category[index],
-                                      controller: q,
-                                    ));
-                              }),
+                          child: q.category.isEmpty
+                              ? Empty()
+                              : ListView.builder(
+                                  itemCount: q.category.length,
+                                  physics: const BouncingScrollPhysics(),
+                                  padding: EdgeInsets.only(
+                                      left: 8, right: 8, top: 8, bottom: 100),
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2),
+                                        child: QuestionView(
+                                          q: q.category[index],
+                                          controller: q,
+                                        ));
+                                  }),
                         );
                 }, QuestionController.instance.isLoading);
               }),

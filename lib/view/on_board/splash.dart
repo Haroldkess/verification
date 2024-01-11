@@ -20,7 +20,7 @@ class _SplashState extends State<Splash> {
         height: double.infinity,
         width: double.infinity,
         child: BounceInDown(
-          duration: const Duration(seconds: 5),
+          duration: const Duration(seconds: 3),
           animate: true,
           child: Center(
             child: AppText(
