@@ -17,11 +17,13 @@ class Answers {
   String? number;
   String? question;
   String? value;
-  Answers(this.number, this.question, this.value);
+  String? note;
+  String? image;
+  Answers(this.number, this.question, this.value, this.note, this.image);
 
   @override
   String toString() {
-    return '{ ${this.number}, ${this.question}, ${this.value} }';
+    return '{ ${this.number}, ${this.question}, ${this.value} , ${this.note}, ${this.image} }';
   }
 }
 
@@ -31,16 +33,25 @@ class UpdateVerificationCall {
     List<Answers> maps = [];
 
     await Future.forEach(QuestionController.instance.questions, (element) {
-      maps.add(Answers(element.qNumber, element.label,
-          element.answer == null ? null : element.answer!.first));
+      maps.add(Answers(
+          element.qNumber,
+          element.label,
+          element.answer == null ? null : element.answer!.first,
+          element.notes == null ? null : element.notes!.first,
+          element.image == null ? null : element.image!.first));
     });
 
     var map = Map.fromIterable(maps,
         key: (e) => e.number,
-        value: (e) => {'label': e.question, 'value': e.value});
+        value: (e) => {
+              'label': e.question,
+              'value': e.value,
+              'notes': e.note,
+              'media': [e.media]
+            });
 
     UpdateModel body = UpdateModel(
-        status: "auto-saved",
+        status: "submitted",
         response: map,
         id: CreateNewVerificationController
             .instance.newVerification.value.insertId);
