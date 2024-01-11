@@ -45,7 +45,9 @@ class YesOrNo extends StatelessWidget {
               SizedBox(
                 width: 3,
               ),
-              Expanded(child: AppText(text: note.isEmpty ? "" : note.first))
+              Expanded(
+                  child:
+                      AppText(text: note.isEmpty ? "" : "Note: ${note.first}"))
             ],
           );
         }, QuestionController.instance.questions),

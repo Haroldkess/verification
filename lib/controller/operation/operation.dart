@@ -100,7 +100,6 @@ class Operations {
       await uploadImage(recievedFiles.first, id);
     } catch (e) {
       consoleLog(e.toString());
-
       return;
     }
   }

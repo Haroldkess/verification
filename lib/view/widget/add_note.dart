@@ -10,8 +10,8 @@ import 'package:verification/view/widget/text.dart';
 import '../../controller/network_calls/question_call.dart';
 import 'button.dart';
 
-final url =
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019";
+String url =
+    "https://icon-library.com/images/placeholder-image-icon/placeholder-image-icon-17.jpg";
 addNoteModal(
   BuildContext cont,
   int id,
@@ -33,92 +33,81 @@ addNoteModal(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: ObxValue((q) {
                 List check = q.where((p0) => p0.id == id).first.notes ?? [];
-                List checkImage =
-                    q.where((p0) => p0.id == id).first.image ?? [];
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                            onPressed: () => PageRouting.popToPage(context),
-                            icon: Icon(
-                              Icons.clear,
-                              color: Colors.red,
-                            ))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    AppText(text: "Add details"),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
+                List image = q.where((p0) => p0.id == id).first.image ?? [];
+                List file = q.where((p0) => p0.id == id).first.file ?? [];
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          InkWell(
-                            onTap: () => Operations.pickForPost(context, id),
-                            child: ObxValue((q) {
-                              List image =
-                                  q.where((p0) => p0.id == id).first.image ??
-                                      [];
-                              List file =
-                                  q.where((p0) => p0.id == id).first.file ?? [];
-                              return Container(
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: image.isEmpty && file.isEmpty
-                                            ? NetworkImage(url) as ImageProvider
-                                            : image.isEmpty && file.isNotEmpty
-                                                ? FileImage(file.first)
-                                                : NetworkImage(image.isEmpty
-                                                        ? url
-                                                        : image.first)
-                                                    as ImageProvider),
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.image_search,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              );
-                            }, QuestionController.instance.questions),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          AppForm(
-                            title: "Note",
-                            isNote: true,
-                            initValue: check.isEmpty ? "" : check.first,
-                            id: id,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          AppButton(
-                              text: "Okay",
-                              onTap: () {
-                                Get.back();
-                              }),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          IconButton(
+                              onPressed: () => PageRouting.popToPage(context),
+                              icon: Icon(
+                                Icons.clear,
+                                color: Colors.red,
+                              ))
                         ],
                       ),
-                    )
-                  ],
+                      SizedBox(
+                        height: 30,
+                      ),
+                      AppText(text: "Add details"),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: [
+                            InkWell(
+                                onTap: () =>
+                                    Operations.pickForPost(context, id),
+                                child: Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: FileImage(file.first)),
+                                      // color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.image_search,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            AppForm(
+                              title: "Note",
+                              isNote: true,
+                              initValue: check.isEmpty ? "" : check.first,
+                              id: id,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            AppButton(
+                                text: "Okay",
+                                onTap: () {
+                                  Get.back();
+                                }),
+                            SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 );
               }, QuestionController.instance.questions),
             ),
