@@ -25,6 +25,9 @@ class Api {
 
   static const cloudFareImageUploadApi =
       " https://api.cloudflare.com/client/v4/accounts/f3cf0f0442de28182c41a584b8e5cd7c/images/v1";
+
+  static const acountId = "9707d050971c5a140c058224f856122a";
+  static const cloudToken = "mkjwmj-ZY_p22Ab9i9l0R54Z9six-iKmLUIh2pfN";
 }
 
 String header = "application/json";

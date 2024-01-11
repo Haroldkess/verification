@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:verification/controller/backoffice/api_url.dart';
 import 'package:verification/controller/network_calls/report_controller.dart';
 import 'package:verification/controller/network_calls/verification_call.dart';
+import 'package:verification/model/image_model.dart';
 import 'package:verification/view/home/home.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../main.dart';
@@ -70,8 +71,8 @@ class Operations {
   static Future pickForPost(BuildContext context, int id) async {
     Cloudflare cloudflare = Cloudflare(
       apiUrl: Api.cloudFareImageUploadApi,
-      accountId: "9707d050971c5a140c058224f856122a",
-      token: "mkjwmj-ZY_p22Ab9i9l0R54Z9six-iKmLUIh2pfN",
+      accountId: Api.acountId,
+      token: Api.cloudToken,
     );
 
     cloudflare = Cloudflare.basic();
@@ -106,7 +107,9 @@ class Operations {
 
 // write code to upload and retrieve image
   static Future<void> uploadImage(File imageData, int id) async {
-    //store here after retrieving
+    //use existing  ImageModel(); to decode response
+
+    //send  image url here after retrieving so it can save in ui and answer
     QuestionController.instance.addImage("<retreived Url>", id);
   }
 }
