@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:verification/controller/operation/operation.dart';
@@ -8,6 +10,8 @@ import 'package:verification/view/widget/text.dart';
 import '../../controller/network_calls/question_call.dart';
 import 'button.dart';
 
+final url =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019";
 addNoteModal(
   BuildContext cont,
   int id,
@@ -61,19 +65,35 @@ addNoteModal(
                         children: [
                           InkWell(
                             onTap: () => Operations.pickForPost(context, id),
-                            child: Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Center(
-                                child: Icon(
-                                  Icons.image_search,
-                                  color: Colors.black,
+                            child: ObxValue((q) {
+                              List image =
+                                  q.where((p0) => p0.id == id).first.image ??
+                                      [];
+                              List file =
+                                  q.where((p0) => p0.id == id).first.file ?? [];
+                              return Container(
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: image.isEmpty && file.isEmpty
+                                            ? NetworkImage(url) as ImageProvider
+                                            : image.isEmpty && file.isNotEmpty
+                                                ? FileImage(file.first)
+                                                : NetworkImage(image.isEmpty
+                                                        ? url
+                                                        : image.first)
+                                                    as ImageProvider),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.image_search,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
-                            ),
+                              );
+                            }, QuestionController.instance.questions),
                           ),
                           SizedBox(
                             height: 10,
